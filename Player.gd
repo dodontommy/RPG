@@ -1,6 +1,7 @@
 extends KinematicBody2D
 var velocity = Vector2()
 var anim
+var camera
 const TILE_SIZE = 16
 
 # Store the last input command's direction.
@@ -20,23 +21,31 @@ var motion = Vector2.ZERO
 
 func _ready():
 	anim = $AnimatedSprite
+	camera = get_node("/root/Node2D/Camera2D")
 	
 func is_moving() -> bool:
 	return self.direction.x != 0 or self.direction.y != 0
 
 func _physics_process(delta):
+	handle_movement(delta)
+	handle_camera(delta)
+	
+func handle_camera(delta):
+	camera.set_global_position(position)
+	
+func handle_movement(delta):
 	motion = Vector2.ZERO
 	if Input.is_action_pressed("MoveRight"):
-		self.direction.x = 1
+		self.direction.x = 1.1
 		anim.play('MoveRight')
 	if Input.is_action_pressed("MoveLeft"):
-		self.direction.x = -1
+		self.direction.x = -1.1
 		anim.play('MoveLeft')
 	if Input.is_action_pressed("MoveDown"):
-		self.direction.y = 1
+		self.direction.y = 1.1
 		anim.play('MoveDown')
 	if Input.is_action_pressed("MoveUp"):
-		self.direction.y = -1
+		self.direction.y = -1.1
 		anim.play('MoveUp')
 	
 	if not is_moving(): return
