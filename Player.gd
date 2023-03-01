@@ -1,23 +1,59 @@
 extends KinematicBody2D
 var velocity = Vector2()
 var anim
+const TILE_SIZE = 16
+
+# Store the last input command's direction.
+var direction: Vector2 = Vector2.ZERO
+
+# Speed of movement
+var _pixels_per_second: float = 2 * TILE_SIZE
+var _step_size: float = 1 / _pixels_per_second 
+
+# Accumulator of deltas, aka fractions of seconds, to time movement.
+var _step: float = 0 
+
+# Count movement progress in distinct integer steps
+var _pixels_moved: int = 0
+
+var motion = Vector2.ZERO
 
 func _ready():
 	anim = $AnimatedSprite
+	
+func is_moving() -> bool:
+	return self.direction.x != 0 or self.direction.y != 0
 
 func _physics_process(delta):
-	velocity = Vector2()
+	motion = Vector2.ZERO
 	if Input.is_action_pressed("MoveRight"):
-		velocity.x += 1
+		self.direction.x = 1
 		anim.play('MoveRight')
 	if Input.is_action_pressed("MoveLeft"):
-		velocity.x -= 1
+		self.direction.x = -1
 		anim.play('MoveLeft')
 	if Input.is_action_pressed("MoveDown"):
-		velocity.y += 1
+		self.direction.y = 1
 		anim.play('MoveDown')
 	if Input.is_action_pressed("MoveUp"):
-		velocity.y -= 1
+		self.direction.y = -1
 		anim.play('MoveUp')
-	velocity = velocity.normalized() * 100
-	move_and_slide(velocity)
+	
+	if not is_moving(): return
+	
+	# delta is measured in fractions of seconds, so for a speed of
+	# 4 pixels_per_second, we need to accumulate deltas until we
+	# reach 1 / 4 = 0.25
+	_step += delta
+	if _step < _step_size: return
+
+	# Move a pixel
+	_step -= _step_size
+	_pixels_moved += 1
+	move_and_collide(direction)
+
+	# Complete movement
+	if _pixels_moved >= TILE_SIZE:
+		direction = Vector2.ZERO
+		_pixels_moved = 0
+		_step = 0
