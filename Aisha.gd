@@ -1,7 +1,9 @@
 extends KinematicBody2D
 var velocity = Vector2()
 var anim
+var camera
 const TILE_SIZE = 16
+const Z_INDEX = 100
 
 # Store the last input command's direction.
 var direction: Vector2 = Vector2.ZERO
@@ -22,12 +24,17 @@ var stats = load("res://AishaStats.tres")
 
 func _ready():
 	anim = $AnimatedSprite
+	camera = get_node("/root/MainGame/Camera2D")
 	
 func is_moving() -> bool:
 	return self.direction.x != 0 or self.direction.y != 0
 
 func _physics_process(delta):
 	handle_movement(delta)
+	handle_camera(delta)
+	
+func handle_camera(delta):
+	camera.set_global_position(position)
 	
 func handle_movement(delta):
 	moved = false

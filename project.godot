@@ -14,6 +14,10 @@ config/name="RPG"
 run/main_scene="res://MainMenu.tscn"
 config/icon="res://icon.png"
 
+[autoload]
+
+GlobalData="*res://GlobalData.gd"
+
 [gui]
 
 common/drop_mouse_on_gui_input_disabled=true
