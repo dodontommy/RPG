@@ -1,0 +1,16 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://CharacterStats.gd" type="Script" id=1]
+
+[resource]
+script = ExtResource( 1 )
+name = "Aisha"
+level = 1
+hp = 100
+mp = 50
+strength = 10
+defense = 5
+magic = 10
+magicDefense = 5
+agility = 10
+luck = 5

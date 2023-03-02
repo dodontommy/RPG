@@ -18,10 +18,12 @@ var _step: float = 0
 var _pixels_moved: int = 0
 
 var motion = Vector2.ZERO
+var moved = false
+var stats = load("res://AishaStats.tres")
 
 func _ready():
 	anim = $AnimatedSprite
-	camera = get_node("/root/Node2D/Camera2D")
+	camera = get_node("/root/MainGame/Camera2D")
 	
 func is_moving() -> bool:
 	return self.direction.x != 0 or self.direction.y != 0
@@ -34,6 +36,7 @@ func handle_camera(delta):
 	camera.set_global_position(position)
 	
 func handle_movement(delta):
+	moved = false
 	motion = Vector2.ZERO
 	if Input.is_action_pressed("MoveRight"):
 		self.direction.x = 1.1
@@ -48,7 +51,7 @@ func handle_movement(delta):
 		self.direction.y = -1.1
 		anim.play('MoveUp')
 	
-	if not is_moving(): return
+	if not is_moving(): return false
 	
 	# delta is measured in fractions of seconds, so for a speed of
 	# 4 pixels_per_second, we need to accumulate deltas until we
@@ -66,3 +69,8 @@ func handle_movement(delta):
 		direction = Vector2.ZERO
 		_pixels_moved = 0
 		_step = 0
+		moved = true
+	
+	return true
+
+
