@@ -3,7 +3,7 @@ extends Node2D
 # Variables to keep track of the battle trigger timer
 var battle_timer = 0.0
 const BATTLE_INTERVAL = 5.0 # Time in seconds between battle checks
-const BATTLE_CHANCE = 30 # 100% chance of triggering a battle
+const BATTLE_CHANCE = 100 # 100% chance of triggering a battle
 
 # Declare member variables here. Examples:
 # var a = 2
