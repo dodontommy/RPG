@@ -20,13 +20,14 @@ func _ready():
 func start_new_game():
 	player = load("res://Scenes/Aisha.tscn").instance()
 	var player_position = Vector2(0, 0)
+	var viewport = get_node("UI/ViewportContainer/Viewport")
 	player.position = player_position
 	player.z_index = player.Z_INDEX
-	add_child(player)
+	viewport.add_child(player)
 
 	GlobalData.set_current_environment("SpaceDungeon")
 	var map = load("res://Scenes/" + GlobalData.get_current_environment() + ".tscn").instance()
-	add_child(map)
+	viewport.add_child(map)
 
 func _physics_process(delta):
 	handle_battle_logic(delta)
@@ -35,8 +36,10 @@ func _physics_process(delta):
 
 # The camera should follow the player around
 func handle_camera_movement():
-	var camera = get_node("Camera2D")
+	var camera = get_node("UI/ViewportContainer/Viewport/Camera2D")
+	# var canvas_layer = get_node("Camera2D/UI")
 	camera.position = player.position
+	# canvas_layer.offset = player.position
 
 # If the escape key is pressed, lets head back out to the menu
 func handle_escape_key():

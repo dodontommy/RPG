@@ -24,7 +24,7 @@ var stats = load("res://AishaStats.tres")
 
 func _ready():
 	anim = $AnimatedSprite
-	camera = get_node("/root/MainGame/Camera2D")
+	camera = get_node("/root/MainGame/UI/ViewportContainer/Viewport/Camera2D")
 	
 func is_moving() -> bool:
 	return self.direction.x != 0 or self.direction.y != 0
