@@ -13,7 +13,7 @@ func _ready():
 
 func _on_start_game_button_pressed():
 	print("Start Game")
-	get_tree().change_scene("res://MainGame.tscn")
+	get_tree().change_scene("res://Scenes/MainGame.tscn")
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):

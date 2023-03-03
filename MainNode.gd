@@ -18,13 +18,14 @@ func _ready():
 
 # Load a new instance of Aisha, load the first map, and start the game
 func start_new_game():
-	player = load("res://Aisha.tscn").instance()
+	player = load("res://Scenes/Aisha.tscn").instance()
 	var player_position = Vector2(0, 0)
 	player.position = player_position
 	player.z_index = player.Z_INDEX
 	add_child(player)
 
-	var map = load("res://SpaceDungeon.tscn").instance()
+	GlobalData.set_current_environment("SpaceDungeon")
+	var map = load("res://Scenes/" + GlobalData.get_current_environment() + ".tscn").instance()
 	add_child(map)
 
 func _physics_process(delta):
@@ -40,7 +41,7 @@ func handle_camera_movement():
 # If the escape key is pressed, lets head back out to the menu
 func handle_escape_key():
 	if Input.is_action_just_pressed("ui_cancel"):
-		get_tree().change_scene("res://MainMenu.tscn")
+		get_tree().change_scene("res://Scenes/MainMenu.tscn")
 	
 		
 func handle_battle_logic(delta):
@@ -58,7 +59,7 @@ func check_for_battle():
 		print("checking for battle")
 		if should_trigger_battle():
 			# Load the BattleScene and pass in the necessary information	
-			var battle = "res://BattleScene.tscn"
+			var battle = "res://Scenes/BattleScene.tscn"
 			current_enemies = [get_random_enemy_type()]
 			GlobalData.set_current_enemies(current_enemies)
 			get_tree().change_scene(battle)
