@@ -23,7 +23,7 @@ var _step: float = 0
 var _pixels_moved: int = 0
 var motion = Vector2.ZERO
 
-var party = load("res://GlobalLogic/Party.tscn").instance()
+var current_party = load("res://GlobalLogic/Party.tres")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -31,13 +31,7 @@ func _ready():
 
 # Load a new instance of Aisha, load the first map, and start the game
 func start_new_game():
-	player = load("res://PartyMembers/Aisha/PartyMember.tscn").instance()
-	var player_position = Vector2(0, 0)
-	player.position = player_position
-	player.z_index = Z_INDEX
-	GameLogic.party_manager.set_current_party([player.name])
-	add_child(player)
-
+	spawn_party()
 	GameLogic.set_current_environment("SpaceDungeon")
 	var map = load("res://Scenes/" + GameLogic.get_current_environment() + ".tscn").instance()
 	add_child(map)
@@ -47,6 +41,13 @@ func _physics_process(delta):
 	handle_escape_key()
 	handle_movement(delta)
 	handle_camera_movement()
+
+func spawn_party():
+	player = load("res://PartyMembers/Aisha/PartyMember.tscn").instance()
+	var player_position = Vector2(0, 0)
+	player.position = player_position
+	player.z_index = Z_INDEX
+	add_child(player)
 	
 func is_moving() -> bool:
 	return player.direction.x != 0 or player.direction.y != 0
@@ -112,7 +113,6 @@ func check_for_battle():
 	if battle_timer <= 0:
 		# Reset the timer and check if a battle should be triggered
 		battle_timer = BATTLE_INTERVAL
-		print("checking for battle")
 		if should_trigger_battle():
 			# Load the BattleScene and pass in the necessary information	
 			var battle = "res://Scenes/BattleScene.tscn"

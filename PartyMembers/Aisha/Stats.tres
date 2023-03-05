@@ -1,0 +1,17 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://PartyMembers/Aisha/Stats.gd" type="Script" id=1]
+
+[resource]
+script = ExtResource( 1 )
+name = "Aisha"
+level = 1
+hp = 65
+mp = 45
+strength = 9
+defense = 5
+magic = 7
+magicDefense = 6
+agility = 6
+luck = 5
+speed = 7

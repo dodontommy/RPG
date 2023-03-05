@@ -16,5 +16,4 @@ func initialize_enemy():
 	# Load the stats
 	var enemy_name = stats.name
 	var enemy_hp = stats.hp
-	print(str(enemy_name) + ": " + str(enemy_hp) + " HP")
 

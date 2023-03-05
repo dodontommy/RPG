@@ -10,7 +10,6 @@ extends Sprite
 func _ready():
 	var name = get_parent().get_name()
 	var texture_path = "res://Enemies/Sprites/" + str(name) + ".png"
-	print(texture_path)
 	texture = load(texture_path)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

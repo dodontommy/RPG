@@ -1,4 +1,4 @@
-extends Node
+extends Resource
 
 export var current_party = []
 

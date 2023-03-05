@@ -12,7 +12,6 @@ func _ready():
 	start_game_button.connect("pressed", self, "_on_start_game_button_pressed")
 
 func _on_start_game_button_pressed():
-	print("Start Game")
 	get_tree().change_scene("res://Scenes/MainGame.tscn")
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
