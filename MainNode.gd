@@ -5,12 +5,25 @@ var battle_timer = 0.0
 const BATTLE_INTERVAL = 5.0 # Time in seconds between battle checks
 const BATTLE_CHANCE = 100 # 100% chance of triggering a battle
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
-
 var player
 var current_enemies = []
+
+# Movement variables
+const TILE_SIZE = 16
+const Z_INDEX = 100
+
+# Speed of movement
+var _pixels_per_second: float = 2 * TILE_SIZE
+var _step_size: float = 1 / _pixels_per_second 
+
+# Accumulator of deltas, aka fractions of seconds, to time movement.
+var _step: float = 0 
+
+# Count movement progress in distinct integer steps
+var _pixels_moved: int = 0
+var motion = Vector2.ZERO
+
+var party = load("res://GlobalLogic/Party.tscn").instance()
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -18,20 +31,63 @@ func _ready():
 
 # Load a new instance of Aisha, load the first map, and start the game
 func start_new_game():
-	player = load("res://Scenes/Aisha.tscn").instance()
+	player = load("res://PartyMembers/Aisha/PartyMember.tscn").instance()
 	var player_position = Vector2(0, 0)
 	player.position = player_position
-	player.z_index = player.Z_INDEX
+	player.z_index = Z_INDEX
+	GameLogic.party_manager.set_current_party([player.name])
 	add_child(player)
 
-	GlobalData.set_current_environment("SpaceDungeon")
-	var map = load("res://Scenes/" + GlobalData.get_current_environment() + ".tscn").instance()
+	GameLogic.set_current_environment("SpaceDungeon")
+	var map = load("res://Scenes/" + GameLogic.get_current_environment() + ".tscn").instance()
 	add_child(map)
 
 func _physics_process(delta):
 	handle_battle_logic(delta)
-	handle_camera_movement()
 	handle_escape_key()
+	handle_movement(delta)
+	handle_camera_movement()
+	
+func is_moving() -> bool:
+	return player.direction.x != 0 or player.direction.y != 0
+		
+func handle_movement(delta):
+	player.moved = false
+	motion = Vector2.ZERO
+	if Input.is_action_pressed("MoveRight"):
+		player.direction.x = 1.1
+		player.animation_player.play('MoveRight')
+	if Input.is_action_pressed("MoveLeft"):
+		player.direction.x = -1.1
+		player.animation_player.play('MoveLeft')
+	if Input.is_action_pressed("MoveDown"):
+		player.direction.y = 1.1
+		player.animation_player.play('MoveDown')
+	if Input.is_action_pressed("MoveUp"):
+		player.direction.y = -1.1
+		player.animation_player.play('MoveUp')
+	
+	if not is_moving(): return false
+	
+	# delta is measured in fractions of seconds, so for a speed of
+	# 4 pixels_per_second, we need to accumulate deltas until we
+	# reach 1 / 4 = 0.25
+	_step += delta
+	if _step < _step_size: return
+
+	# Move a pixel
+	_step -= _step_size
+	_pixels_moved += 1
+	player.move_and_collide(player.direction)
+
+	# Complete movement
+	if _pixels_moved >= TILE_SIZE:
+		player.direction = Vector2.ZERO
+		_pixels_moved = 0
+		_step = 0
+		player.moved = true
+	
+	return true
 
 # The camera should follow the player around
 func handle_camera_movement():
@@ -61,7 +117,7 @@ func check_for_battle():
 			# Load the BattleScene and pass in the necessary information	
 			var battle = "res://Scenes/BattleScene.tscn"
 			current_enemies = [get_random_enemy_type()]
-			GlobalData.set_current_enemies(current_enemies)
+			GameLogic.set_current_enemies(current_enemies)
 			get_tree().change_scene(battle)
 		
 func should_trigger_battle() -> bool:

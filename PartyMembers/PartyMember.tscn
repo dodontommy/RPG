@@ -1,13 +1,13 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://MarthaSpriteFrames.tres" type="SpriteFrames" id=1]
-[ext_resource path="res://Scenes/Aisha.gd" type="Script" id=2]
+[ext_resource path="res://PartyMembers/Aisha/SpriteFrames.tres" type="SpriteFrames" id=1]
+[ext_resource path="res://PartyMembers/PartyMember.gd" type="Script" id=2]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 11.0
 height = 10.0
 
-[node name="Aisha" type="KinematicBody2D"]
+[node name="PartyMember" type="KinematicBody2D"]
 script = ExtResource( 2 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]

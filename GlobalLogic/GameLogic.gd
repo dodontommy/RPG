@@ -1,5 +1,10 @@
 extends Node
 
+# Other scripts
+var party_manager = load("res://GlobalLogic/Party.gd").new()
+
+# Global variables
+var current_party = party_manager.get_current_party()
 var current_enemy_scenes = []
 var current_environment = null
 
