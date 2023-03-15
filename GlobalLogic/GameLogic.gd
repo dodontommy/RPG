@@ -5,7 +5,8 @@ extends Node
 # Global variables
 var current_enemy_scenes = []
 var current_environment = null
-var party = null
+var current_party = []
+var character_stats = {}
 
 var battle_background_count_map = {
 	"SpaceDungeon": 1,
@@ -16,7 +17,21 @@ var battle_background_count_map = {
 var in_safe_zone = false
 
 func _ready():
-	party = ResourceLoader.load("res://GlobalLogic/Party.tres")
+	# Load the character stats
+	var character_stats_file = File.new()
+	character_stats_file.open("res://data/character_stats.json", File.READ)
+	var character_stats_json = character_stats_file.get_as_text()
+	character_stats_file.close()
+	character_stats = JSON.parse(character_stats_json).result
+
+func get_character_stats():
+	return character_stats
+
+func get_current_party():
+	return current_party
+
+func set_current_party(party):
+	current_party = party
 
 func set_current_enemies(enemy_scenes):
 	current_enemy_scenes = enemy_scenes

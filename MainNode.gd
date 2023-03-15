@@ -48,6 +48,7 @@ func spawn_party():
 	player.position = player_position
 	player.z_index = Z_INDEX
 	add_child(player)
+	GameLogic.set_current_party([player.get_name()])
 	
 func is_moving() -> bool:
 	return player.direction.x != 0 or player.direction.y != 0

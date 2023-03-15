@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://Scenes/BattleScene.gd" type="Script" id=1]
+[ext_resource path="res://Scenes/GameComponents/BattleMenuOption.tscn" type="PackedScene" id=2]
 
 [node name="BattleScene" type="Node2D"]
 scale = Vector2( 1.01274, 1.008 )
@@ -23,23 +24,13 @@ margin_left = 2.0
 margin_top = 2.0
 margin_right = 93.0
 margin_bottom = 63.0
-color = Color( 0.470588, 0.054902, 0.054902, 1 )
+color = Color( 0.470588, 0.054902, 0.054902, 0.541176 )
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/ColorRect"]
+[node name="Menu" type="VBoxContainer" parent="ColorRect/ColorRect"]
 margin_right = 91.0
 margin_bottom = 61.0
+rect_scale = Vector2( 1, 0.996664 )
 
-[node name="Attack" type="Button" parent="ColorRect/ColorRect/VBoxContainer"]
+[node name="BattleMenuOption" parent="ColorRect/ColorRect/Menu" instance=ExtResource( 2 )]
 margin_right = 91.0
-margin_bottom = 20.0
-text = "Attack"
-flat = true
-align = 0
-
-[node name="Run" type="Button" parent="ColorRect/ColorRect/VBoxContainer"]
-margin_top = 24.0
-margin_right = 91.0
-margin_bottom = 44.0
-text = "Run"
-flat = true
-align = 0
+margin_bottom = 0.0

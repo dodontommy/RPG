@@ -1,0 +1,15 @@
+{
+    "Aisha": {
+        "name": "Aisha",
+        "level": 1,
+        "hp": 65,
+        "mp": 45,
+        "strength": 9,
+        "defense": 5,
+        "magic": 7,
+        "magicDefense": 6,
+        "agility": 6,
+        "luck": 5,
+        "speed": 7
+    }
+}

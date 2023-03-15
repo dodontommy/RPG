@@ -37,7 +37,7 @@ func spawn_enemies():
 		enemy.position = Vector2(0, 0)
 
 func spawn_party():
-	pass
+	var party = GameLogic.get_current_party()
 
 func get_background_number():
 	var environment = GameLogic.get_current_environment()
