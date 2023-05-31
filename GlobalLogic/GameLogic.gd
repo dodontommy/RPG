@@ -5,7 +5,6 @@ extends Node
 # Global variables
 var current_enemy_scenes = []
 var current_environment = null
-var current_party = []
 var character_stats = {}
 
 var battle_background_count_map = {
@@ -26,12 +25,6 @@ func _ready():
 
 func get_character_stats():
 	return character_stats
-
-func get_current_party():
-	return current_party
-
-func set_current_party(party):
-	current_party = party
 
 func set_current_enemies(enemy_scenes):
 	current_enemy_scenes = enemy_scenes

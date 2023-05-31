@@ -9,7 +9,7 @@ func _ready():
 
 func initialize_enemy():
 	var name = get_name()
-	var script_path = "res://Enemies/" + name + "/Stats.gd"  # Replace with the path to your script
+	var script_path = "res://Enemies/" + name + "/Stats.gd"
 	var script = ResourceLoader.load(script_path)
 	stats = script.new()
 

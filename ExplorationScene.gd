@@ -35,23 +35,26 @@ func _ready():
 # TODO: Take this out of the overworld scene and put it in the main scene
 # TODO: load party from file
 func start_new_game():
-	spawn_party()
+	spawn_player()
 	GameLogic.set_current_environment("SpaceDungeon")
 	var map = load("res://Scenes/" + GameLogic.get_current_environment() + ".tscn").instance()
 	add_child(map)
+
+func spawn_player():
+	print('TEST')
+	# # var party_members = Party.members
+	# # print(party_members[0])
+	# var player_character = get_node("res:///PartyMembers/" + party_members[0].name + "/PartyMember.tscn")
+	# var player_position = Vector2(0, 0)
+	# player_character.position = player_position
+	# player_character.z_index = Z_INDEX
+	# add_child(player_character)
 
 func _physics_process(delta):
 	handle_battle_logic(delta)
 	handle_escape_key()
 	handle_movement(delta)
 	handle_camera_movement()
-
-func spawn_party():
-	player = load("res://PartyMembers/Aisha/PartyMember.tscn").instance()
-	var player_position = Vector2(0, 0)
-	player.position = player_position
-	player.z_index = Z_INDEX
-	add_child(player)
 	
 func is_moving() -> bool:
 	return player.direction.x != 0 or player.direction.y != 0

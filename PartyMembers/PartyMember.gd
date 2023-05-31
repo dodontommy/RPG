@@ -5,6 +5,7 @@ var camera
 
 var motion = Vector2.ZERO
 var moved = false
+var hp = null
 onready var stats = ResourceLoader.load("res://PartyMembers/" + get_name() + "/Stats.tres")
 onready var animation_player = $AnimatedSprite
 
@@ -21,7 +22,5 @@ func _ready():
 
 func set_stats():
 	var stats = GameLogic.get_character_stats()[get_name()]
+	hp = stats["hp"]
 	print(stats)
-
-	
-

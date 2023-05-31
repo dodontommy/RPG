@@ -1,19 +1,10 @@
 extends Control
 
+signal start_game
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
-
-
-# Called when the node enters the scene tree for the first time.
 func _ready():
 	var start_game_button = $StartGame  # Get the button node
 	start_game_button.connect("pressed", self, "_on_start_game_button_pressed")
 
 func _on_start_game_button_pressed():
-	get_tree().change_scene("res://Scenes/MainGame.tscn")
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+	emit_signal("start_game")

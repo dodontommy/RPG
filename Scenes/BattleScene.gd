@@ -3,15 +3,16 @@ extends Node2D
 var current_enemies = []	# List of enemies in the current battle
 var current_party = []	# List of party members in the current battle
 var turn_order = []	# List of all characters in the current battle, sorted by speed
+signal battle_started # Emitted when the battle starts
 
 func _ready():
 	start_battle()
 
 func start_battle():
-	spawn_party()
 	spawn_enemies()
 	spawn_background()
 	determine_turn_order()
+	emit_signal("battle_started")
 
 func determine_turn_order():
 	for party_member in current_party:
@@ -35,9 +36,6 @@ func spawn_enemies():
 	if add_child(enemy):
 		current_enemies.append(enemy)
 		enemy.position = Vector2(0, 0)
-
-func spawn_party():
-	var party = GameLogic.get_current_party()
 
 func get_background_number():
 	var environment = GameLogic.get_current_environment()
